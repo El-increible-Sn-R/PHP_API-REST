@@ -31,6 +31,7 @@ class ventas {
 	{
 		$this->conn=$db;
 	}
+
 	public function read(){
 		$query='select 
 			ventas_id,
@@ -63,36 +64,40 @@ class ventas {
 
 		return $stmt;
 	}
-	public function read_single(){
-		$query='select 
-			c.name as category_name,
-			p.id,
-			p.category_id,
-			p.title,
-			p.body,
-			p.author,
-			p.created_at
-			from 
-			'.$this->table.' p
-			left join
-			categories c on p.category_id=c.id
-			where p.id=? LIMIT 1';
-		//prepare statement
-		$stmt = $this->conn->prepare($query);
-		//binding param
-		$stmt->bindParam(1,$this->id);
-		//execute the query
-		$stmt->execute();
 
-		$row=$stmt->fetch(PDO::FETCH_ASSOC);
-		$this->title=$row['title'];
-		$this->body=$row['body'];
-		$this->author=$row['author'];
-		$this->category_id=$row['category_id'];
-		$this->category_name=$row['category_name'];
-	}
+	// public function read_single(){
+	// 	$query='select 
+	// 		c.name as category_name,
+	// 		p.id,
+	// 		p.category_id,
+	// 		p.title,
+	// 		p.body,
+	// 		p.author,
+	// 		p.created_at
+	// 		from 
+	// 		'.$this->table.' p
+	// 		left join
+	// 		categories c on p.category_id=c.id
+	// 		where p.id=? LIMIT 1';
+	// 	//prepare statement
+	// 	$stmt = $this->conn->prepare($query);
+	// 	//binding param
+	// 	$stmt->bindParam(1,$this->id);
+	// 	//execute the query
+	// 	$stmt->execute();
+
+	// 	$row=$stmt->fetch(PDO::FETCH_ASSOC);
+	// 	$this->title=$row['title'];
+	// 	$this->body=$row['body'];
+	// 	$this->author=$row['author'];
+	// 	$this->category_id=$row['category_id'];
+	// 	$this->category_name=$row['category_name'];
+	// }
+
 	public function create(){
 		//create query
+		// die(var_dump($this));
+
 		$query='INSERT INTO '.$this->table.' set
 			ventas_nroPedido=:ventas_nroPedido,
 			ventas_cliente_nombre=:ventas_cliente_nombre,
@@ -136,7 +141,7 @@ class ventas {
 		$this->ventas_cliente_tarjeta=htmlspecialchars(strip_tags($this->ventas_cliente_tarjeta));
 		$this->ventas_codigo_autorizacion=htmlspecialchars(strip_tags($this->ventas_codigo_autorizacion));
 		$this->ventas_codigo_eci=htmlspecialchars(strip_tags($this->ventas_codigo_eci));
-		$this->ventas_canal=htmlspecialchars(strip_tags($this->category_id));
+		$this->ventas_canal=htmlspecialchars(strip_tags($this->ventas_canal));
 		//binding of parameters
 		$stmt->bindParam(':ventas_nroPedido',$this->ventas_nroPedido);
 		$stmt->bindParam(':ventas_cliente_nombre',$this->ventas_cliente_nombre);
