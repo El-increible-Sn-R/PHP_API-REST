@@ -31,7 +31,28 @@ class ventas {
 	{
 		$this->conn=$db;
 	}
+	// //-----------------------------------------VALIDACIONES Y OTROS----------------------
+	// public function validateRequest(){
 
+	// }
+
+	// public function processApi(){
+
+	// }
+
+	// public function validateParameter($fieldName, $value, $dataType, $required){
+
+	// }
+
+	// public function throwError($code,$message){
+
+	// }
+
+	// public function returnResponce(){
+
+	// }
+
+	//-----------------------------------------GLORIOSO CRUD-----------------------------
 	public function read(){
 		$query='select 
 			ventas_id,
@@ -96,29 +117,36 @@ class ventas {
 
 	public function create(){
 		//create query
-		// die(var_dump($this));
+		//die(var_dump($this));
+		// $ventas_fechatransaccion=(isset($data->ventas_fechatransaccion))?'ventas_fechatransaccion=:ventas_fechatransaccion,':"\n";
+		$ventas_fechatransaccion=(is_null($this->ventas_fechatransaccion))?'':"\n".'ventas_fechatransaccion=:ventas_fechatransaccion,';
+		$ventas_fechaliquidacion=(is_null($this->ventas_fechaliquidacion))?'':"\n".'ventas_fechaliquidacion=:ventas_fechaliquidacion,';
+		$ventas_estado=(is_null($this->ventas_estado))?'':"\n".'ventas_estado=:ventas_estado,';
+		$ventas_fechaanulacion=(is_null($this->ventas_fechaanulacion))?'':"\n".'ventas_fechaanulacion=:ventas_fechaanulacion,';
 
 		$query='INSERT INTO '.$this->table.' set
 			ventas_nroPedido=:ventas_nroPedido,
 			ventas_cliente_nombre=:ventas_cliente_nombre,
 			ventas_moneda=:ventas_moneda,
 			ventas_importe=:ventas_importe,
-			ventas_marca=:ventas_marca,
-			ventas_fechatransaccion=:ventas_fechatransaccion,
-			ventas_fechaliquidacion=:ventas_fechaliquidacion,
-			ventas_estado=:ventas_estado,
-			ventas_codigo_comercio=:ventas_codigo_comercio,
+			ventas_marca=:ventas_marca,'.
+			$ventas_fechatransaccion.
+			$ventas_fechaliquidacion.
+			$ventas_estado.
+			'ventas_codigo_comercio=:ventas_codigo_comercio,
 			ventas_idtransaccion_visanet=:ventas_idtransaccion_visanet,
 			ventas_cliente_email=:ventas_cliente_email,
 			ventas_codigo_accion=:ventas_codigo_accion,
-			ventas_motivo_denegacion=:ventas_motivo_denegacion,
-			ventas_fechaanulacion=:ventas_fechaanulacion,
-			ventas_nombre_comercio=:ventas_nombre_comercio,
+			ventas_motivo_denegacion=:ventas_motivo_denegacion,'.
+			$ventas_fechaanulacion.
+			'ventas_nombre_comercio=:ventas_nombre_comercio,
 			ventas_cliente_documento=:ventas_cliente_documento,
 			ventas_cliente_tarjeta=:ventas_cliente_tarjeta,
 			ventas_codigo_autorizacion=:ventas_codigo_autorizacion,
 			ventas_codigo_eci=:ventas_codigo_eci,
 			ventas_canal=:ventas_canal';
+
+		// die(var_dump($query));
 		//prepare statement
 		$stmt=$this->conn->prepare($query);
 		//clear data
@@ -148,21 +176,24 @@ class ventas {
 		$stmt->bindParam(':ventas_moneda',$this->ventas_moneda);
 		$stmt->bindParam(':ventas_importe',$this->ventas_importe);
 		$stmt->bindParam(':ventas_marca',$this->ventas_marca);
-		$stmt->bindParam(':ventas_fechatransaccion',$this->ventas_fechatransaccion);
-		$stmt->bindParam(':ventas_fechaliquidacion',$this->ventas_fechaliquidacion);
-		$stmt->bindParam(':ventas_estado',$this->ventas_estado);
+		// $stmt->bindParam(':ventas_fechatransaccion',$this->ventas_fechatransaccion);
+		// $stmt->bindParam(':ventas_fechaliquidacion',$this->ventas_fechaliquidacion);
+		// $stmt->bindParam(':ventas_estado',$this->ventas_estado);
 		$stmt->bindParam(':ventas_codigo_comercio',$this->ventas_codigo_comercio);
 		$stmt->bindParam(':ventas_idtransaccion_visanet',$this->ventas_idtransaccion_visanet);
 		$stmt->bindParam(':ventas_cliente_email',$this->ventas_cliente_email);
 		$stmt->bindParam(':ventas_codigo_accion',$this->ventas_codigo_accion);
 		$stmt->bindParam(':ventas_motivo_denegacion',$this->ventas_motivo_denegacion);
-		$stmt->bindParam(':ventas_fechaanulacion',$this->ventas_fechaanulacion);
+		// $stmt->bindParam(':ventas_fechaanulacion',$this->ventas_fechaanulacion);
 		$stmt->bindParam(':ventas_nombre_comercio',$this->ventas_nombre_comercio);
 		$stmt->bindParam(':ventas_cliente_documento',$this->ventas_cliente_documento);
 		$stmt->bindParam(':ventas_cliente_tarjeta',$this->ventas_cliente_tarjeta);
 		$stmt->bindParam(':ventas_codigo_autorizacion',$this->ventas_codigo_autorizacion);
 		$stmt->bindParam(':ventas_codigo_eci',$this->ventas_codigo_eci);
 		$stmt->bindParam(':ventas_canal',$this->ventas_canal);
+
+		// die(var_dump($stmt));
+
 		//execute the queery
 		if ($stmt->execute()) {
 			return true;
