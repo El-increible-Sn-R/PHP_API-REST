@@ -7,7 +7,7 @@ header('access-control-allow-methods:POST');
 header('access-control-allow-headers:access-control-allow-headers,content-type,access-control-allow-methods,authorization,x-requested-with');
 //initialize our api
 include_once('../core/initialize.php');
-//instancie post
+//cree una instancias de la clase ventas
 $ventas=new ventas($db);
 //get raw posted data
 $data=json_decode(file_get_contents("php://input"));
