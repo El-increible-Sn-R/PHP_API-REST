@@ -1,11 +1,11 @@
 <?php 
-ini_set("xdebug.var_display_max_children", -1);
-ini_set("xdebug.var_display_max_data", -1);
-ini_set("xdebug.var_display_max_depth", -1);
+// ini_set("xdebug.var_display_max_children", -1);
+// ini_set("xdebug.var_display_max_data", -1);
+// ini_set("xdebug.var_display_max_depth", -1);
 
 class ventas {
 	//db stuff
-	public $conn;
+	private $conn;
 	private $table = 'ventas';
 	//post properties
 	public $ventas_id;
@@ -89,34 +89,61 @@ class ventas {
 		return $stmt;
 	}
 
-	// public function read_single(){
-	// 	$query='select 
-	// 		c.name as category_name,
-	// 		p.id,
-	// 		p.category_id,
-	// 		p.title,
-	// 		p.body,
-	// 		p.author,
-	// 		p.created_at
-	// 		from 
-	// 		'.$this->table.' p
-	// 		left join
-	// 		categories c on p.category_id=c.id
-	// 		where p.id=? LIMIT 1';
-	// 	//prepare statement
-	// 	$stmt = $this->conn->prepare($query);
-	// 	//binding param
-	// 	$stmt->bindParam(1,$this->id);
-	// 	//execute the query
-	// 	$stmt->execute();
+	public function read_single(){
+		$query='select 
+			ventas_id,
+			ventas_nroPedido,
+			ventas_cliente_nombre,
+			ventas_moneda,
+			ventas_importe,
+			ventas_marca,
+			ventas_fechatransaccion,
+			ventas_fechaliquidacion,
+			ventas_estado,
+			ventas_codigo_comercio,
+			ventas_idtransaccion_visanet,
+			ventas_cliente_email,
+			ventas_codigo_accion,
+			ventas_motivo_denegacion,
+			ventas_fechaanulacion,
+			ventas_nombre_comercio,
+			ventas_cliente_documento,
+			ventas_cliente_tarjeta,
+			ventas_codigo_autorizacion,
+			ventas_codigo_eci,
+			ventas_canal
+			from 
+			'.$this->table;
+		//prepare statement
+		$stmt = $this->conn->prepare($query);
+		//binding param
+		$stmt->bindParam(1,$this->ventas_id);
+		//execute the query
+		$stmt->execute();
 
-	// 	$row=$stmt->fetch(PDO::FETCH_ASSOC);
-	// 	$this->title=$row['title'];
-	// 	$this->body=$row['body'];
-	// 	$this->author=$row['author'];
-	// 	$this->category_id=$row['category_id'];
-	// 	$this->category_name=$row['category_name'];
-	// }
+		$row=$stmt->fetch(PDO::FETCH_ASSOC);
+		$this->ventas_id=$row['ventas_id'];
+		$this->ventas_nroPedido=$row['ventas_nroPedido'];
+		$this->ventas_cliente_nombre=$row['ventas_cliente_nombre'];
+		$this->ventas_moneda=$row['ventas_moneda'];
+		$this->ventas_importe=$row['ventas_importe'];
+		$this->ventas_marca=$row['ventas_marca'];
+		$this->ventas_fechatransaccion=$row['ventas_fechatransaccion'];
+		$this->ventas_fechaliquidacion=$row['ventas_fechaliquidacion'];
+		$this->ventas_estado=$row['ventas_estado'];
+		$this->ventas_codigo_comercio=$row['ventas_codigo_comercio'];
+		$this->ventas_idtransaccion_visanet=$row['ventas_idtransaccion_visanet'];
+		$this->ventas_cliente_email=$row['ventas_cliente_email'];
+		$this->ventas_codigo_accion=$row['ventas_codigo_accion'];
+		$this->ventas_motivo_denegacion=$row['ventas_motivo_denegacion'];
+		$this->ventas_fechaanulacion=$row['ventas_fechaanulacion'];
+		$this->ventas_nombre_comercio=$row['ventas_nombre_comercio'];
+		$this->ventas_cliente_documento=$row['ventas_cliente_documento'];
+		$this->ventas_cliente_tarjeta=$row['ventas_cliente_tarjeta'];
+		$this->ventas_codigo_autorizacion=$row['ventas_codigo_autorizacion'];
+		$this->ventas_codigo_eci=$row['ventas_codigo_eci'];
+		$this->ventas_canal=$row['ventas_canal'];
+	}
 
 	public function create(){
 		//create query
@@ -213,187 +240,239 @@ class ventas {
 	}
 
 	public function update(){
-		$ventas_nroPedido='';
-		$ventas_cliente_nombre='';
-		$ventas_moneda='';
-		$ventas_importe='';
-		$ventas_marca='';
-		$ventas_fechatransaccion='';
-		$ventas_fechaliquidacion='';
-		$ventas_estado='';
-		$ventas_codigo_comercio='';
-		$ventas_idtransaccion_visanet='';
-		$ventas_cliente_email='';
-		$ventas_codigo_accion='';
-		$ventas_motivo_denegacion='';
-		$ventas_fechaanulacion='';
-		$ventas_nombre_comercio='';
-		$ventas_cliente_documento='';
-		$ventas_cliente_tarjeta='';
-		$ventas_codigo_autorizacion='';
-		$ventas_codigo_eci='';
-		$ventas_canal='';
+		$NombreDeLaColumnaConOsinComa = array('ventas_nroPedido' => '', 
+			'ventas_cliente_nombre' => '',
+			'ventas_moneda' => '',
+			'ventas_importe' => '',
+			'ventas_marca' => '',
+			'ventas_fechatransaccion' => '',
+			'ventas_fechaliquidacion' => '',
+			'ventas_estado' => '',
+			'ventas_codigo_comercio' => '',
+			'ventas_idtransaccion_visanet' => '',
+			'ventas_cliente_email' => '',
+			'ventas_codigo_accion' => '',
+			'ventas_motivo_denegacion' => '',
+			'ventas_fechaanulacion' => '',
+			'ventas_nombre_comercio' => '',
+			'ventas_cliente_documento' => '',
+			'ventas_cliente_tarjeta' => '',
+			'ventas_codigo_autorizacion' => '',
+			'ventas_codigo_eci' => '',
+			'ventas_canal' => '',
+		);
+
+		// $ventas_nroPedido='';
+		// $ventas_cliente_nombre='';
+		// $ventas_moneda='';
+		// $ventas_importe='';
+		// $ventas_marca='';
+		// $ventas_fechatransaccion='';
+		// $ventas_fechaliquidacion='';
+		// $ventas_estado='';
+		// $ventas_codigo_comercio='';
+		// $ventas_idtransaccion_visanet='';
+		// $ventas_cliente_email='';
+		// $ventas_codigo_accion='';
+		// $ventas_motivo_denegacion='';
+		// $ventas_fechaanulacion='';
+		// $ventas_nombre_comercio='';
+		// $ventas_cliente_documento='';
+		// $ventas_cliente_tarjeta='';
+		// $ventas_codigo_autorizacion='';
+		// $ventas_codigo_eci='';
+		// $ventas_canal='';
 		$contador=0;
-		if (is_null($this->ventas_nroPedido) == false) {
-			if (1 <= $contador) {
-				$ventas_nroPedido="\n".',ventas_nroPedido=:ventas_nroPedido';
-			}else{
-				$ventas_nroPedido="\n".'ventas_nroPedido=:ventas_nroPedido';
+
+		foreach ($this as $PropiedadDeLaClaseVenta => $NulloDataPost) {
+			foreach ($NombreDeLaColumnaConOsinComa as $Columna => $ColumnaValue) {
+				if ($PropiedadDeLaClaseVenta==$Columna) {
+					if (is_null($NulloDataPost) == false) {
+						if (1 <= $contador) {
+							$NombreDeLaColumnaConOsinComa[$Columna]="\n".",$PropiedadDeLaClaseVenta=:$PropiedadDeLaClaseVenta";
+						}else{
+							$NombreDeLaColumnaConOsinComa[$Columna]="\n"."$PropiedadDeLaClaseVenta=:$PropiedadDeLaClaseVenta";
+						}
+						$contador=$contador+1;
+						// die("$ColumnaValue"."-dentro del if");
+					}	
+				}
 			}
-			$contador=$contador+1;
+			// if ($key!='conn' && $key!='table' && $key!='ventas_id') {
+			// 	if (is_null($key) == false) {
+			// 		if (1 <= $contador) {
+			// 			$ventas_nroPedido="\n".",$key=:$key";
+			// 		}else{
+			// 			$ventas_nroPedido="\n"."$key=:$key";
+			// 		}
+			// 		$contador=$contador+1;
+			// 		die("$ventas_nroPedido"."-dentro del if");
+			// 	}			
+			// 	// print_r("$key: $value"."</br>");
+			// }
 		}
-		if (is_null($this->ventas_cliente_nombre) == false) {
-			if (1 <= $contador) {
-				$ventas_cliente_nombre="\n".',ventas_cliente_nombre=:ventas_cliente_nombre';
-			}else{
-				$ventas_cliente_nombre="\n".'ventas_cliente_nombre=:ventas_cliente_nombre';
-			}
-			$contador=$contador+1;
-		}
-		if (is_null($this->ventas_moneda) == false) {
-			if (1 <= $contador) {
-				$ventas_moneda="\n".',ventas_moneda=:ventas_moneda';
-			}else{
-				$ventas_moneda="\n".'ventas_moneda=:ventas_moneda';
-			}
-			$contador=$contador+1;
-		}
-		if (is_null($this->ventas_importe) == false) {
-			if (1 <= $contador) {
-				$ventas_importe="\n".',ventas_importe=:ventas_importe';
-			}else{
-				$ventas_importe="\n".'ventas_importe=:ventas_importe';
-			}
-			$contador=$contador+1;
-		}
-		if (is_null($this->ventas_marca) == false) {
-			if (1 <= $contador) {
-				$ventas_marca="\n".',ventas_marca=:ventas_marca';
-			}else{
-				$ventas_marca="\n".'ventas_marca=:ventas_marca';
-			}
-			$contador=$contador+1;
-		}
-		if (is_null($this->ventas_fechatransaccion) == false) {
-			if (1 <= $contador) {
-				$ventas_fechatransaccion="\n".',ventas_fechatransaccion=:ventas_fechatransaccion';
-			}else{
-				$ventas_fechatransaccion="\n".'ventas_fechatransaccion=:ventas_fechatransaccion';
-			}
-			$contador=$contador+1;
-		}
-		if (is_null($this->ventas_fechaliquidacion) == false) {
-			if (1 <= $contador) {
-				$ventas_fechaliquidacion="\n".',ventas_fechaliquidacion=:ventas_fechaliquidacion';
-			}else{
-				$ventas_fechaliquidacion="\n".'ventas_fechaliquidacion=:ventas_fechaliquidacion';
-			}
-			$contador=$contador+1;
-		}
-		if (is_null($this->ventas_estado) == false) {
-			if (1 <= $contador) {
-				$ventas_estado="\n".',ventas_estado=:ventas_estado';
-			}else{
-				$ventas_estado="\n".'ventas_estado=:ventas_estado';
-			}
-			$contador=$contador+1;
-		}
-		if (is_null($this->ventas_codigo_comercio) == false) {
-			if (1 <= $contador) {
-				$ventas_codigo_comercio="\n".',ventas_codigo_comercio=:ventas_codigo_comercio';
-			}else{
-				$ventas_codigo_comercio="\n".'ventas_codigo_comercio=:ventas_codigo_comercio';
-			}
-			$contador=$contador+1;
-		}
-		if (is_null($this->ventas_idtransaccion_visanet) == false) {
-			if (1 <= $contador) {
-				$ventas_idtransaccion_visanet="\n".',ventas_idtransaccion_visanet=:ventas_idtransaccion_visanet';
-			}else{
-				$ventas_idtransaccion_visanet="\n".'ventas_idtransaccion_visanet=:ventas_idtransaccion_visanet';
-			}
-			$contador=$contador+1;
-		}
-		if (is_null($this->ventas_cliente_email) == false) {
-			if (1 <= $contador) {
-				$ventas_cliente_email="\n".',ventas_cliente_email=:ventas_cliente_email';
-			}else{
-				$ventas_cliente_email="\n".'ventas_cliente_email=:ventas_cliente_email';
-			}
-			$contador=$contador+1;
-		}
-		if (is_null($this->ventas_codigo_accion) == false) {
-			if (1 <= $contador) {
-				$ventas_codigo_accion="\n".',ventas_codigo_accion=:ventas_codigo_accion';
-			}else{
-				$ventas_codigo_accion="\n".'ventas_codigo_accion=:ventas_codigo_accion';
-			}
-			$contador=$contador+1;
-		}
-		if (is_null($this->ventas_motivo_denegacion) == false) {
-			if (1 <= $contador) {
-				$ventas_motivo_denegacion="\n".',ventas_motivo_denegacion=:ventas_motivo_denegacion';
-			}else{
-				$ventas_motivo_denegacion="\n".'ventas_motivo_denegacion=:ventas_motivo_denegacion';
-			}
-			$contador=$contador+1;
-		}
-		if (is_null($this->ventas_fechaanulacion) == false) {
-			if (1 <= $contador) {
-				$ventas_fechaanulacion="\n".',ventas_fechaanulacion=:ventas_fechaanulacion';
-			}else{
-				$ventas_fechaanulacion="\n".'ventas_fechaanulacion=:ventas_fechaanulacion';
-			}
-			$contador=$contador+1;
-		}
-		if (is_null($this->ventas_nombre_comercio) == false) {
-			if (1 <= $contador) {
-				$ventas_nombre_comercio="\n".',ventas_nombre_comercio=:ventas_nombre_comercio';
-			}else{
-				$ventas_nombre_comercio="\n".'ventas_nombre_comercio=:ventas_nombre_comercio';
-			}
-			$contador=$contador+1;
-		}
-		if (is_null($this->ventas_cliente_documento) == false) {
-			if (1 <= $contador) {
-				$ventas_cliente_documento="\n".',ventas_cliente_documento=:ventas_cliente_documento';
-			}else{
-				$ventas_cliente_documento="\n".'ventas_cliente_documento=:ventas_cliente_documento';
-			}
-			$contador=$contador+1;
-		}
-		if (is_null($this->ventas_cliente_tarjeta) == false) {
-			if (1 <= $contador) {
-				$ventas_cliente_tarjeta="\n".',ventas_cliente_tarjeta=:ventas_cliente_tarjeta';
-			}else{
-				$ventas_cliente_tarjeta="\n".'ventas_cliente_tarjeta=:ventas_cliente_tarjeta';
-			}
-			$contador=$contador+1;
-		}
-		if (is_null($this->ventas_codigo_autorizacion) == false) {
-			if (1 <= $contador) {
-				$ventas_codigo_autorizacion="\n".',ventas_codigo_autorizacion=:ventas_cliente_tarjeta';
-			}else{
-				$ventas_codigo_autorizacion="\n".'ventas_codigo_autorizacion=:ventas_cliente_tarjeta';
-			}
-			$contador=$contador+1;
-		}
-		if (is_null($this->ventas_codigo_eci) == false) {
-			if (1 <= $contador) {
-				$ventas_codigo_eci="\n".',ventas_codigo_eci=:ventas_codigo_eci';
-			}else{
-				$ventas_codigo_eci="\n".'ventas_codigo_eci=:ventas_codigo_eci';
-			}
-			$contador=$contador+1;
-		}
-		if (is_null($this->ventas_canal) == false) {
-			if (1 <= $contador) {
-				$ventas_canal="\n".',ventas_canal=:ventas_canal';
-			}else{
-				$ventas_canal="\n".'ventas_canal=:ventas_canal';
-			}
-			$contador=$contador+1;
-		}
+		// die(var_dump($NombreDeLaColumnaConOsinComa));
+
+		// if (is_null($this->ventas_nroPedido) == false) {
+		// 	if (1 <= $contador) {
+		// 		$ventas_nroPedido="\n".',ventas_nroPedido=:ventas_nroPedido';
+		// 	}else{
+		// 		$ventas_nroPedido="\n".'ventas_nroPedido=:ventas_nroPedido';
+		// 	}
+		// 	$contador=$contador+1;
+		// }
+		// if (is_null($this->ventas_cliente_nombre) == false) {
+		// 	if (1 <= $contador) {
+		// 		$ventas_cliente_nombre="\n".',ventas_cliente_nombre=:ventas_cliente_nombre';
+		// 	}else{
+		// 		$ventas_cliente_nombre="\n".'ventas_cliente_nombre=:ventas_cliente_nombre';
+		// 	}
+		// 	$contador=$contador+1;
+		// }
+		// if (is_null($this->ventas_moneda) == false) {
+		// 	if (1 <= $contador) {
+		// 		$ventas_moneda="\n".',ventas_moneda=:ventas_moneda';
+		// 	}else{
+		// 		$ventas_moneda="\n".'ventas_moneda=:ventas_moneda';
+		// 	}
+		// 	$contador=$contador+1;
+		// }
+		// if (is_null($this->ventas_importe) == false) {
+		// 	if (1 <= $contador) {
+		// 		$ventas_importe="\n".',ventas_importe=:ventas_importe';
+		// 	}else{
+		// 		$ventas_importe="\n".'ventas_importe=:ventas_importe';
+		// 	}
+		// 	$contador=$contador+1;
+		// }
+		// if (is_null($this->ventas_marca) == false) {
+		// 	if (1 <= $contador) {
+		// 		$ventas_marca="\n".',ventas_marca=:ventas_marca';
+		// 	}else{
+		// 		$ventas_marca="\n".'ventas_marca=:ventas_marca';
+		// 	}
+		// 	$contador=$contador+1;
+		// }
+		// if (is_null($this->ventas_fechatransaccion) == false) {
+		// 	if (1 <= $contador) {
+		// 		$ventas_fechatransaccion="\n".',ventas_fechatransaccion=:ventas_fechatransaccion';
+		// 	}else{
+		// 		$ventas_fechatransaccion="\n".'ventas_fechatransaccion=:ventas_fechatransaccion';
+		// 	}
+		// 	$contador=$contador+1;
+		// }
+		// if (is_null($this->ventas_fechaliquidacion) == false) {
+		// 	if (1 <= $contador) {
+		// 		$ventas_fechaliquidacion="\n".',ventas_fechaliquidacion=:ventas_fechaliquidacion';
+		// 	}else{
+		// 		$ventas_fechaliquidacion="\n".'ventas_fechaliquidacion=:ventas_fechaliquidacion';
+		// 	}
+		// 	$contador=$contador+1;
+		// }
+		// if (is_null($this->ventas_estado) == false) {
+		// 	if (1 <= $contador) {
+		// 		$ventas_estado="\n".',ventas_estado=:ventas_estado';
+		// 	}else{
+		// 		$ventas_estado="\n".'ventas_estado=:ventas_estado';
+		// 	}
+		// 	$contador=$contador+1;
+		// }
+		// if (is_null($this->ventas_codigo_comercio) == false) {
+		// 	if (1 <= $contador) {
+		// 		$ventas_codigo_comercio="\n".',ventas_codigo_comercio=:ventas_codigo_comercio';
+		// 	}else{
+		// 		$ventas_codigo_comercio="\n".'ventas_codigo_comercio=:ventas_codigo_comercio';
+		// 	}
+		// 	$contador=$contador+1;
+		// }
+		// if (is_null($this->ventas_idtransaccion_visanet) == false) {
+		// 	if (1 <= $contador) {
+		// 		$ventas_idtransaccion_visanet="\n".',ventas_idtransaccion_visanet=:ventas_idtransaccion_visanet';
+		// 	}else{
+		// 		$ventas_idtransaccion_visanet="\n".'ventas_idtransaccion_visanet=:ventas_idtransaccion_visanet';
+		// 	}
+		// 	$contador=$contador+1;
+		// }
+		// if (is_null($this->ventas_cliente_email) == false) {
+		// 	if (1 <= $contador) {
+		// 		$ventas_cliente_email="\n".',ventas_cliente_email=:ventas_cliente_email';
+		// 	}else{
+		// 		$ventas_cliente_email="\n".'ventas_cliente_email=:ventas_cliente_email';
+		// 	}
+		// 	$contador=$contador+1;
+		// }
+		// if (is_null($this->ventas_codigo_accion) == false) {
+		// 	if (1 <= $contador) {
+		// 		$ventas_codigo_accion="\n".',ventas_codigo_accion=:ventas_codigo_accion';
+		// 	}else{
+		// 		$ventas_codigo_accion="\n".'ventas_codigo_accion=:ventas_codigo_accion';
+		// 	}
+		// 	$contador=$contador+1;
+		// }
+		// if (is_null($this->ventas_motivo_denegacion) == false) {
+		// 	if (1 <= $contador) {
+		// 		$ventas_motivo_denegacion="\n".',ventas_motivo_denegacion=:ventas_motivo_denegacion';
+		// 	}else{
+		// 		$ventas_motivo_denegacion="\n".'ventas_motivo_denegacion=:ventas_motivo_denegacion';
+		// 	}
+		// 	$contador=$contador+1;
+		// }
+		// if (is_null($this->ventas_fechaanulacion) == false) {
+		// 	if (1 <= $contador) {
+		// 		$ventas_fechaanulacion="\n".',ventas_fechaanulacion=:ventas_fechaanulacion';
+		// 	}else{
+		// 		$ventas_fechaanulacion="\n".'ventas_fechaanulacion=:ventas_fechaanulacion';
+		// 	}
+		// 	$contador=$contador+1;
+		// }
+		// if (is_null($this->ventas_nombre_comercio) == false) {
+		// 	if (1 <= $contador) {
+		// 		$ventas_nombre_comercio="\n".',ventas_nombre_comercio=:ventas_nombre_comercio';
+		// 	}else{
+		// 		$ventas_nombre_comercio="\n".'ventas_nombre_comercio=:ventas_nombre_comercio';
+		// 	}
+		// 	$contador=$contador+1;
+		// }
+		// if (is_null($this->ventas_cliente_documento) == false) {
+		// 	if (1 <= $contador) {
+		// 		$ventas_cliente_documento="\n".',ventas_cliente_documento=:ventas_cliente_documento';
+		// 	}else{
+		// 		$ventas_cliente_documento="\n".'ventas_cliente_documento=:ventas_cliente_documento';
+		// 	}
+		// 	$contador=$contador+1;
+		// }
+		// if (is_null($this->ventas_cliente_tarjeta) == false) {
+		// 	if (1 <= $contador) {
+		// 		$ventas_cliente_tarjeta="\n".',ventas_cliente_tarjeta=:ventas_cliente_tarjeta';
+		// 	}else{
+		// 		$ventas_cliente_tarjeta="\n".'ventas_cliente_tarjeta=:ventas_cliente_tarjeta';
+		// 	}
+		// 	$contador=$contador+1;
+		// }
+		// if (is_null($this->ventas_codigo_autorizacion) == false) {
+		// 	if (1 <= $contador) {
+		// 		$ventas_codigo_autorizacion="\n".',ventas_codigo_autorizacion=:ventas_cliente_tarjeta';
+		// 	}else{
+		// 		$ventas_codigo_autorizacion="\n".'ventas_codigo_autorizacion=:ventas_cliente_tarjeta';
+		// 	}
+		// 	$contador=$contador+1;
+		// }
+		// if (is_null($this->ventas_codigo_eci) == false) {
+		// 	if (1 <= $contador) {
+		// 		$ventas_codigo_eci="\n".',ventas_codigo_eci=:ventas_codigo_eci';
+		// 	}else{
+		// 		$ventas_codigo_eci="\n".'ventas_codigo_eci=:ventas_codigo_eci';
+		// 	}
+		// 	$contador=$contador+1;
+		// }
+		// if (is_null($this->ventas_canal) == false) {
+		// 	if (1 <= $contador) {
+		// 		$ventas_canal="\n".',ventas_canal=:ventas_canal';
+		// 	}else{
+		// 		$ventas_canal="\n".'ventas_canal=:ventas_canal';
+		// 	}
+		// 	$contador=$contador+1;
+		// }
 
 		// $ventas_nroPedido=(is_null($this->ventas_nroPedido))?'':"\n".'ventas_nroPedido=:ventas_nroPedido';
 		// $ventas_cliente_nombre=(is_null($this->ventas_cliente_nombre))?'':"\n".'ventas_cliente_nombre=:ventas_cliente_nombre';
@@ -418,26 +497,47 @@ class ventas {
 
 		//create query
 		$query='UPDATE '.$this->table.' set '.
-			$ventas_nroPedido.
-			$ventas_cliente_nombre.
-			$ventas_moneda.
-			$ventas_importe.
-			$ventas_marca.
-			$ventas_fechatransaccion.
-			$ventas_fechaliquidacion.
-			$ventas_estado.
-			$ventas_codigo_comercio.
-			$ventas_idtransaccion_visanet.
-			$ventas_cliente_email.
-			$ventas_codigo_accion.
-			$ventas_motivo_denegacion.
-			$ventas_fechaanulacion.
-			$ventas_nombre_comercio.
-			$ventas_cliente_documento.
-			$ventas_cliente_tarjeta.
-			$ventas_codigo_autorizacion.
-			$ventas_codigo_eci.
-			$ventas_canal.
+			// $ventas_nroPedido.
+			// $ventas_cliente_nombre.
+			// $ventas_moneda.
+			// $ventas_importe.
+			// $ventas_marca.
+			// $ventas_fechatransaccion.
+			// $ventas_fechaliquidacion.
+			// $ventas_estado.
+			// $ventas_codigo_comercio.
+			// $ventas_idtransaccion_visanet.
+			// $ventas_cliente_email.
+			// $ventas_codigo_accion.
+			// $ventas_motivo_denegacion.
+			// $ventas_fechaanulacion.
+			// $ventas_nombre_comercio.
+			// $ventas_cliente_documento.
+			// $ventas_cliente_tarjeta.
+			// $ventas_codigo_autorizacion.
+			// $ventas_codigo_eci.
+			// $ventas_canal.
+			// ' where ventas_id=:ventas_id';
+			$NombreDeLaColumnaConOsinComa['ventas_nroPedido'].
+			$NombreDeLaColumnaConOsinComa['ventas_cliente_nombre'].
+			$NombreDeLaColumnaConOsinComa['ventas_moneda'].
+			$NombreDeLaColumnaConOsinComa['ventas_importe'].
+			$NombreDeLaColumnaConOsinComa['ventas_marca'].
+			$NombreDeLaColumnaConOsinComa['ventas_fechatransaccion'].
+			$NombreDeLaColumnaConOsinComa['ventas_fechaliquidacion'].
+			$NombreDeLaColumnaConOsinComa['ventas_estado'].
+			$NombreDeLaColumnaConOsinComa['ventas_codigo_comercio'].
+			$NombreDeLaColumnaConOsinComa['ventas_idtransaccion_visanet'].
+			$NombreDeLaColumnaConOsinComa['ventas_cliente_email'].
+			$NombreDeLaColumnaConOsinComa['ventas_codigo_accion'].
+			$NombreDeLaColumnaConOsinComa['ventas_motivo_denegacion'].
+			$NombreDeLaColumnaConOsinComa['ventas_fechaanulacion'].
+			$NombreDeLaColumnaConOsinComa['ventas_nombre_comercio'].
+			$NombreDeLaColumnaConOsinComa['ventas_cliente_documento'].
+			$NombreDeLaColumnaConOsinComa['ventas_cliente_tarjeta'].
+			$NombreDeLaColumnaConOsinComa['ventas_codigo_autorizacion'].
+			$NombreDeLaColumnaConOsinComa['ventas_codigo_eci'].
+			$NombreDeLaColumnaConOsinComa['ventas_canal'].
 			' where ventas_id=:ventas_id';
 
 		// die(var_dump($query));
@@ -538,6 +638,18 @@ class ventas {
 		//print error if something goes wrong
 		printf('error %s. \n',$stmt->error);
 		return false;
+	}
+
+	public function delete(){
+		$query = 'delete from '.$this->table.' where ventas_id=:p_ventas_id';
+		$stmt = $this->conn->prepare($query);
+		// $this->id=htmlspecialchars(strip_tags($this->id));
+		$stmt->bindParam(':p_ventas_id',$this->ventas_id);
+		if ($stmt->execute()) {
+			return true;
+		}
+		printf('error %s. \n', $stmt->error);
+		return false;		
 	}
 }
 

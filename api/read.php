@@ -3,9 +3,9 @@
 //headers:
 header('access-control-allow-origin: *');
 header('content-type: application/json');
-//initialize our api
+//inicializamos nuestra api
 include_once('../core/initialize.php');
-//instancie post
+//cree una instancias de la clase ventas
 $ventas=new ventas($db);
 //blog post query
 $result=$ventas->read();
@@ -45,7 +45,7 @@ if ($num>0) {
 	//convert to json and output
 	echo json_encode($post_arr);
 }else{
-	echo json_encode(array('message'=>'no ventas found'));
+	echo json_encode(array('message'=>'ninguna venta encontrada'));
 }
 
 ?>
