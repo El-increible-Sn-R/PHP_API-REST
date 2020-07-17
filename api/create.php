@@ -5,11 +5,11 @@ header('access-control-allow-origin: *');
 header('content-type: application/json');
 header('access-control-allow-methods:POST');
 header('access-control-allow-headers:access-control-allow-headers,content-type,access-control-allow-methods,authorization,x-requested-with');
-//initialize our api
+//inicializamos nuestra api
 include_once('../core/initialize.php');
 //cree una instancias de la clase ventas
 $ventas=new ventas($db);
-//get raw posted data
+//obtenemos los datos de post sin procesar
 $data=json_decode(file_get_contents("php://input"));
 
 // die(var_dump($data));

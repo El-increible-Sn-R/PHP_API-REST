@@ -179,7 +179,7 @@ create table ventas(
 	ventas_moneda char(3) not null,
 	ventas_importe decimal(10,2) not null,
 	ventas_marca varchar(16) not null,
-	ventas_fechatransaccion DATETIME default CURRENT_TIMESTAMP,
+	ventas_fechatransaccion TIMESTAMP default CURRENT_TIMESTAMP,
 	ventas_fechaliquidacion DATETIME null,
 	ventas_estado char(1) default 'p' null check (ventas_estado in ('d','l','a','p')),
 	ventas_codigo_comercio int not null,

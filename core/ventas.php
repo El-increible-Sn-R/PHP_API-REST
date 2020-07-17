@@ -1,7 +1,7 @@
 <?php 
-// ini_set("xdebug.var_display_max_children", -1);
-// ini_set("xdebug.var_display_max_data", -1);
-// ini_set("xdebug.var_display_max_depth", -1);
+ini_set("xdebug.var_display_max_children", -1);
+ini_set("xdebug.var_display_max_data", -1);
+ini_set("xdebug.var_display_max_depth", -1);
 
 class ventas {
 	//db stuff
@@ -113,7 +113,8 @@ class ventas {
 			ventas_codigo_eci,
 			ventas_canal
 			from 
-			'.$this->table;
+			'.$this->table.
+			' where ventas_id=? LIMIT 1';
 		//prepare statement
 		$stmt = $this->conn->prepare($query);
 		//binding param
@@ -146,8 +147,6 @@ class ventas {
 	}
 
 	public function create(){
-		//create query
-		//die(var_dump($this));
 		$ventas_fechatransaccion=(is_null($this->ventas_fechatransaccion))?'':"\n".'ventas_fechatransaccion=:ventas_fechatransaccion,';
 		$ventas_fechaliquidacion=(is_null($this->ventas_fechaliquidacion))?'':"\n".'ventas_fechaliquidacion=:ventas_fechaliquidacion,';
 		$ventas_estado=(is_null($this->ventas_estado))?'':"\n".'ventas_estado=:ventas_estado,';
